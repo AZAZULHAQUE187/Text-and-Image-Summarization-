@@ -1,0 +1,8 @@
+Flask
+Pillow
+pytesseract
+sentence-transformers
+transformers
+sumy
+torch
+nltk

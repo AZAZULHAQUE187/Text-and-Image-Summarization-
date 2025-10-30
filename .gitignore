@@ -1,0 +1,33 @@
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+*.egg
+
+# Virtual envs
+.venv/
+venv/
+env/
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Flask instance and caches
+instance/
+.pytest_cache/
+.cache/
+
+# Local env vars
+.env
+.env.*
+
+# App uploads and runtime files
+Flask(Main)/imagetotext/static/uploads/*
+!Flask(Main)/imagetotext/static/uploads/.gitkeep
+Flask(Main)/imagetotext/feedback.txt

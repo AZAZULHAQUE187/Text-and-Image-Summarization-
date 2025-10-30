@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Summarizer</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif; /* Use Times New Roman font */
+            background-color: #f9f9f9; /* Optional background color for better visibility */
+            padding: 20px;
+        }
+
+        h1 {
+            color: rgb(0, 0, 0); /* Dark red color for the title */
+        }
+
+        input[type="file"] {
+            background-color: rgb(132, 8, 248); /* Green background for the file input */
+            color: rgb(20, 217, 231); /* White text color for better contrast */
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: rgb(250, 184, 4); /* Blue color for the upload button */
+            color: rgb(4, 237, 245); /* White text color */
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer; /* Change cursor to pointer on hover */
+        }
+
+        pre {
+            font-family: 'Times New Roman', Times, serif; /* Times New Roman font for extracted text */
+            background-color: #e8e8e8; /* Light gray background for better readability */
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        h2, h3 {
+            color: rgb(240, 6, 6); /* Dark blue color for section titles */
+        }
+
+        .feedback-form {
+            margin-top: 20px;
+            color: rgb(214, 2, 73);
+        }
+    </style>
+</head>
+<body>
+    <h1>Upload an Image for Text Extraction and Summarization</h1>
+    <form action="/" method="POST" enctype="multipart/form-data">
+        <input type="file" name="image" accept="image/*">
+        <button type="submit">Upload</button>
+    </form>
+    
+    {% if text %}
+        <h2>Extracted Text:</h2>
+        <pre>{{ text }}</pre>
+        <h2>Word Count:</h2>
+        <p>Original Text Word Count: {{ original_word_count }}</p>
+
+        <h2>BERT SUMMARY:</h2>
+        <pre>{{ bert_summary }}</pre>
+        <h3>Word Count:</h3>
+        <p>BERT Summary Word Count: {{ bert_word_count }}</p>
+        <h3>Scores:</h3>
+        <pre>{{ bert_scores }}</pre>
+        <!-- Feedback Form for BERT -->
+        <div class="feedback-form">
+            <h3>Provide Feedback for BERT Summary:</h3>
+            <form action="/submit-feedback" method="post">
+                <label for="bert-feedback">Rate the Summary Quality (1 to 5):</label><br>
+                <input type="radio" id="1" name="bert_rating" value="1"><label for="1">1</label><br>
+                <input type="radio" id="2" name="bert_rating" value="2"><label for="2">2</label><br>
+                <input type="radio" id="3" name="bert_rating" value="3"><label for="3">3</label><br>
+                <input type="radio" id="4" name="bert_rating" value="4"><label for="4">4</label><br>
+                <input type="radio" id="5" name="bert_rating" value="5"><label for="5">5</label><br><br>
+                <input type="submit" value="Submit Feedback">
+            </form>
+        </div>
+
+        <h2>SBERT SUMMARY:</h2>
+        <pre>{{ sbert_summary }}</pre>
+        <h3>Word Count:</h3>
+        <p>SBERT Summary Word Count: {{ sbert_word_count }}</p>
+        <h3>Scores:</h3>
+        <pre>{{ sbert_scores }}</pre>
+        <!-- Feedback Form for SBERT -->
+        <div class="feedback-form">
+            <h3>Provide Feedback for SBERT Summary:</h3>
+            <form action="/submit-feedback" method="post">
+                <label for="sbert-feedback">Rate the Summary Quality (1 to 5):</label><br>
+                <input type="radio" id="1" name="sbert_rating" value="1"><label for="1">1</label><br>
+                <input type="radio" id="2" name="sbert_rating" value="2"><label for="2">2</label><br>
+                <input type="radio" id="3" name="sbert_rating" value="3"><label for="3">3</label><br>
+                <input type="radio" id="4" name="sbert_rating" value="4"><label for="4">4</label><br>
+                <input type="radio" id="5" name="sbert_rating" value="5"><label for="5">5</label><br><br>
+                <input type="submit" value="Submit Feedback">
+            </form>
+        </div>
+
+        <h2>GPT SUMMARY:</h2>
+        <pre>{{ gpt_summary }}</pre>
+        <h3>Word Count:</h3>
+        <p>GPT Summary Word Count: {{ gpt_word_count }}</p>
+        <h3>Scores:</h3>
+        <pre>{{ gpt_scores }}</pre>
+        <!-- Feedback Form for GPT -->
+        <div class="feedback-form">
+            <h3>Provide Feedback for GPT Summary:</h3>
+            <form action="/submit-feedback" method="post">
+                <label for="gpt-feedback">Rate the Summary Quality (1 to 5):</label><br>
+                <input type="radio" id="1" name="gpt_rating" value="1"><label for="1">1</label><br>
+                <input type="radio" id="2" name="gpt_rating" value="2"><label for="2">2</label><br>
+                <input type="radio" id="3" name="gpt_rating" value="3"><label for="3">3</label><br>
+                <input type="radio" id="4" name="gpt_rating" value="4"><label for="4">4</label><br>
+                <input type="radio" id="5" name="gpt_rating" value="5"><label for="5">5</label><br><br>
+                <input type="submit" value="Submit Feedback">
+            </form>
+        </div>
+
+        <h2>TEXTRANK SUMMARY:</h2>
+        <pre>{{ text_rank_summary }}</pre>
+        <h3>Word Count:</h3>
+        <p>TextRank Summary Word Count: {{ text_rank_word_count }}</p>
+        <h3>Scores:</h3>
+        <pre>{{ text_rank_scores }}</pre>
+        <!-- Feedback Form for TextRank -->
+        <div class="feedback-form">
+            <h3>Provide Feedback for TextRank Summary:</h3>
+            <form action="/submit-feedback" method="post">
+                <label for="textrank-feedback">Rate the Summary Quality (1 to 5):</label><br>
+                <input type="radio" id="1" name="textrank_rating" value="1"><label for="1">1</label><br>
+                <input type="radio" id="2" name="textrank_rating" value="2"><label for="2">2</label><br>
+                <input type="radio" id="3" name="textrank_rating" value="3"><label for="3">3</label><br>
+                <input type="radio" id="4" name="textrank_rating" value="4"><label for="4">4</label><br>
+                <input type="radio" id="5" name="textrank_rating" value="5"><label for="5">5</label><br><br>
+                <input type="submit" value="Submit Feedback">
+            </form>
+        </div>
+    {% endif %}
+</body>
+</html>
